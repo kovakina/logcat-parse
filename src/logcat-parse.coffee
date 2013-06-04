@@ -1,3 +1,5 @@
+root = exports ? this # bind to window or exports depending on browser/node context
+
 XRegExp = require("xregexp").XRegExp
 
 PATTERNS =
@@ -8,6 +10,7 @@ PATTERNS =
     tag:        XRegExp("^(?<level>[VDIWEAF])\\/(?<tag>[^)]{0,23}?):\\s+(?<message>.*)$"),
     thread:     XRegExp("^(?<level>[VDIWEAF])\\(\\s*(?<pid>\\d+):(?<tid>0x.*?)\\)\\s+(?<message>.*)$"),
     ddms_save:  XRegExp("^(?<timestamp>\\d\\d-\\d\\d\\s\\d\\d:\\d\\d:\\d\\d\\.\\d+):*\\s(?<level>VERBOSE|DEBUG|ERROR|WARN|INFO|ASSERT)\\/(?<tag>.*?)\\((?<pid>\\s*\\d+)\\):\\s+(?<message>.*)$"),
+root.PATTERNS = PATTERNS
 
 LEVELS = # see http://developer.android.com/tools/debugging/debugging-log.html
     V: "verbose" # lowest
@@ -18,6 +21,7 @@ LEVELS = # see http://developer.android.com/tools/debugging/debugging-log.html
     A: "assert"
     F: "fatal"
     S: "silent" # highest, nothing ever printed
+root.LEVELS = LEVELS
 
 get_type = (line) ->
     for type,pattern of PATTERNS
@@ -25,7 +29,7 @@ get_type = (line) ->
         return type if pattern.test(line)
     return null
 
-parse = (contents) ->
+root.parse = (contents) ->
     type = null
     badlines = 0
     messages = []
@@ -49,5 +53,3 @@ parse = (contents) ->
                     badlines += 1
 
     return {type: type, messages: messages, badlines: badlines}
-
-exports.parse = parse
