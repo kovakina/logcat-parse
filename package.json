@@ -1,7 +1,7 @@
 {
     "name": "logcat-parse",
-    "description": "An Android LogCat log parser."
-    "version": "0.1.0-alpha",
+    "description": "An Android LogCat log parser.",
+    "version": "0.1.0",
     "author": "Jake McGinty",
     "homepage": "https://github.com/mcginty/logcat-parse",
     "repository": {
@@ -23,13 +23,13 @@
         "coffee-script": ">=1.6.3"
     },
     "scripts": {
-        "build": "coffee --bare --compile --lint --output lib src",
-        "prepublish": "coffee --bare --compile --lint --output lib src",
+        "build": "coffee --bare --compile --output lib src",
+        "prepublish": "coffee --bare --compile --output lib src",
         "postpublish": "rm -rf lib"
-    "private": true,
+    },
     "licenses": [
         {
-            "type": "WTFPL",
+            "type": "GPLv3",
             "url": "https://github.com/mcginty/logcat-parse/blob/master/LICENSE"
         }
     ]
